@@ -1,92 +1,54 @@
 import streamlit as st
 
-st.title("Student Application Form")
+st.title("📄 Profile Preview App")
 
-# -------- Sidebar --------
-st.sidebar.title("Sidebar")
+# Sidebar
+st.sidebar.header("User Settings")
 st.sidebar.text_input("Enter your email")
-st.sidebar.selectbox("Select your country", ["India", "USA", "UK"])
-st.sidebar.slider("Rate this app", 0, 5)
+st.sidebar.selectbox("Select country", ["India", "USA", "UK"])
 
-# -------- Tabs --------
-tab1, tab2, tab3 = st.tabs(["Home", "Form", "Upload"])
+# Tabs
+tab1, tab2 = st.tabs(["Profile Form", "Upload & Preview"])
 
-# -------- Tab 1 --------
+# -------- TAB 1 --------
 with tab1:
-    st.header("Welcome Page")
+    st.header("Enter Your Details")
 
     name = st.text_input("Enter your name")
     age = st.number_input("Enter your age", step=1)
     address = st.text_area("Enter your address")
 
-    st.date_input("Select date")
-    st.time_input("Select time")
-
-    color = st.color_picker("Pick a color")
-    st.write("Selected color:", color)
-
-    st.checkbox("I agree")
     gender = st.radio("Select gender", ["Male", "Female", "Other"])
-    st.write("Gender:", gender)
 
-# -------- Tab 2 --------
+    if st.button("Show Profile"):
+        st.write("### Your Details")
+        st.write("Name:", name)
+        st.write("Age:", age)
+        st.write("Address:", address)
+        st.write("Gender:", gender)
+
+# -------- TAB 2 --------
 with tab2:
-    st.header("Registration Form")
+    st.header("Upload Your File")
 
-    with st.form("form1"):
-        col1, col2 = st.columns(2)
-
-        with col1:
-            st.text_input("First Name")
-
-        with col2:
-            st.text_input("Last Name")
-
-        st.text_input("Email")
-        st.text_input("Password", type="password")
-
-        col1, col2 = st.columns(2)
-        with col1:
-            st.date_input("Start Date")
-
-        with col2:
-            st.date_input("End Date")
-
-        st.text_area("Address")
-
-        submit = st.form_submit_button("Submit")
-
-        if submit:
-            st.success("Form Submitted Successfully!")
-
-# -------- Tab 3 --------
-with tab3:
-    st.header("File Upload")
-
-    file = st.file_uploader("Upload a file", type=["jpg", "png", "pdf"])
+    file = st.file_uploader("Upload Resume / ID", type=["jpg", "png", "pdf"])
 
     if file is not None:
-        st.success("File uploaded successfully!")
+        st.success("File uploaded successfully ✅")
 
-        # Show image if uploaded
+        # Show image preview
         if file.type.startswith("image"):
-            st.image(file)
+            st.image(file, caption="Uploaded Image", width=300)
+        else:
+            st.write("PDF uploaded (preview not shown)")
 
-# -------- Columns --------
-st.write("Columns Section")
+# Columns
+st.write("### Feedback Section")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.write("Column 1")
-    st.text_input("Enter name in column 1")
+    st.text_input("Enter your feedback")
 
 with col2:
-    st.write("Column 2")
-    st.text_input("Enter name in column 2")
-
-# -------- Button --------
-if st.button("Final Submit"):
-    st.success("Submitted Successfully!")
-
-# -------- Link --------
-st.write("[Google](https://www.google.com)")
+    rating = st.slider("Rate this app", 0, 5)
+    st.write("Rating:", rating)
